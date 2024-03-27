@@ -1,6 +1,5 @@
-PyMuPDF
+streamlit
 Image
 transformers
-streamlit
 fitz
 frontend
