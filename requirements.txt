@@ -3,3 +3,4 @@ Image
 transformers
 streamlit
 fitz
+frontend
