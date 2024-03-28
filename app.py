@@ -83,7 +83,8 @@ def pdf_to_img(uploaded_file):
 
     # Create a PDF document object
     #pdf_document = fitz.open(stream=pdf_data, filetype="pdf")
-    pdf_document = st.file_uploader("Choose a file to upload", filetype="pdf")
+    pdf_document = st.file_uploader("Choose a file to upload")
+
 
     # Get the first page of the PDF document
     first_page = pdf_document.load_page(0)
