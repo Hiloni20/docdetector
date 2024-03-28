@@ -1,7 +1,8 @@
 # from dotenv import load_dotenv
 import streamlit as st
 from PIL import Image
-import fitz 
+import pdfplumber
+#import fitz 
 import io
 from transformers import CLIPProcessor, CLIPModel
 CLIPProcessor.safety_checker = None
@@ -81,7 +82,8 @@ def pdf_to_img(uploaded_file):
     pdf_data = uploaded_file.read()
 
     # Create a PDF document object
-    pdf_document = fitz.open(stream=pdf_data, filetype="pdf")
+    #pdf_document = fitz.open(stream=pdf_data, filetype="pdf")
+    pdf_document = st.file_uploader(stream=pdf_data, filetype="pdf")
 
     # Get the first page of the PDF document
     first_page = pdf_document.load_page(0)
