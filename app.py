@@ -1,17 +1,15 @@
 # from dotenv import load_dotenv
 import streamlit as st
 from PIL import Image
-import pdfplumber
-#import fitz 
 import io
 from transformers import CLIPProcessor, CLIPModel
+
 CLIPProcessor.safety_checker = None
-# CLIPProcessor.safety_checker = None
-# CLIPModel.safety_checker = None
-# Adjust img2text to handle both file-like objects and PIL.Image.Image instances
+
 def img2text(uploaded_file):
     model = CLIPModel.from_pretrained("openai/clip-vit-large-patch14-336")
     processor = CLIPProcessor.from_pretrained("openai/clip-vit-large-patch14-336")
+    
     if isinstance(uploaded_file, Image.Image):
         image = uploaded_file
     else:
@@ -29,17 +27,10 @@ def img2text(uploaded_file):
     max_prob = max(flat_probs)
     index_of_max = flat_probs.index(max_prob)
     
-    st.write("Your documents have been uploaded successfully. Thanks for submitting your ", array[index_of_max], ".")
+    st.write("Your document has been uploaded successfully. Thanks for submitting your ", array[index_of_max], ".")
     st.write("We'll take care of the rest.")
-    # st.write("Accuracy - ", max_prob)
-    # return array[index_of_max]
 
-
-# st.sidebar.info("Hello World")
 def main():
-    # img = Image.open('/Users/atharvabapat/Desktop/Theoremlabs-project/favicon (2).ico')
-    # st.set_page_config(page_title="Document Identification")
-    
     st.set_page_config(page_title='Famiology.docdetector', page_icon='./favicon (2).ico')
     st.header('Famiology Document Detector')
     st.sidebar.image("FamiologyTextLogo.png", use_column_width=True)
@@ -57,50 +48,14 @@ def main():
         st.header('Value') 
         expander = st.expander("See Details")
         expander.write('eVaults are smart and can support automation of client interactions as well as parallel internal ops process . Saves ops time, cleaner data, nudges for clients as well as for internal staff.')
+    
     uploaded_file = st.file_uploader("Choose a file to upload", type=['png', 'jpeg', 'jpg', 'pdf'])
     
     if uploaded_file is not None:
-        # Display the uploaded image
         if uploaded_file.type == 'application/pdf':
-            uploaded_file = pdf_to_img(uploaded_file)
-            # st.image(uploaded_file, caption='Uploaded Image.', use_column_width=True)
-            # scenario1 = img2text(uploaded_file)
             img2text(uploaded_file)
-            # with st.expander("Identified Document Type"):
-            #     print("Thank You for uploading ", st.write(scenario1))
-        else:    
-            # st.image(uploaded_file, caption='Uploaded Image.', use_column_width=True)
-        
-            # scenario = img2text(uploaded_file) 
+        else:
             img2text(uploaded_file)
-        
-            # with st.expander("Extracted Text"):
-            #     print("Thank You for uploading ", st.write(scenario))
-
-def pdf_to_img(uploaded_file):
-    # Open the PDF file
-    pdf_data = uploaded_file.read()
-
-    # Create a PDF document object
-    #pdf_document = fitz.open(stream=pdf_data, filetype="pdf")
-    pdf_document = st.file_uploader("Choose a file to upload")
-
-
-    # Get the first page of the PDF document
-    first_page = pdf_document.load_page(0)
-
-    # Convert the first page to a pixmap
-    pixmap = first_page.get_pixmap()
-
-    # Convert the pixmap to bytes
-    img_bytes = pixmap.tobytes()
-
-    # Create an image from the bytes
-    image = Image.open(io.BytesIO(img_bytes))
-    
-    return image
-           
-        
 
 if __name__ == '__main__':
-        main()
+    main()
