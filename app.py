@@ -77,28 +77,36 @@ def main():
             # with st.expander("Extracted Text"):
             #     print("Thank You for uploading ", st.write(scenario))
 
+# def pdf_to_img(uploaded_file):
+#     # Open the PDF file
+#     pdf_data = uploaded_file.read()
+
+#     # Create a PDF document object
+#     #pdf_document = fitz.open(stream=pdf_data, filetype="pdf")
+#     pdf_document = st.file_uploader("Uploaded Document")
+
+
+#     # Get the first page of the PDF document
+#     first_page = pdf_document.load_page(0)
+
+#     # Convert the first page to a pixmap
+#     pixmap = first_page.get_pixmap()
+
+#     # Convert the pixmap to bytes
+#     img_bytes = pixmap.tobytes()
+
+#     # Create an image from the bytes
+#     image = Image.open(io.BytesIO(img_bytes))
+
 def pdf_to_img(uploaded_file):
-    # Open the PDF file
     pdf_data = uploaded_file.read()
-
-    # Create a PDF document object
-    #pdf_document = fitz.open(stream=pdf_data, filetype="pdf")
-    pdf_document = st.file_uploader("Uploaded Document")
-
-
-    # Get the first page of the PDF document
-    first_page = pdf_document.load_page(0)
-
-    # Convert the first page to a pixmap
-    pixmap = first_page.get_pixmap()
-
-    # Convert the pixmap to bytes
-    img_bytes = pixmap.tobytes()
-
-    # Create an image from the bytes
-    image = Image.open(io.BytesIO(img_bytes))
-    
+    pdf = pdfplumber.load(io.BytesIO(pdf_data))
+    first_page = pdf.pages[0]
+    img = first_page.to_image()
+    image = Image.open(io.BytesIO(img.original_bytes))
+    pdf.close()
     return image
+    
            
         
 
