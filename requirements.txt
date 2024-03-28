@@ -1,6 +1,5 @@
 streamlit
-Image
+Pillow
+pdfplumber
+torch
 transformers
-fitz
-PyMuPDF
-frontend
